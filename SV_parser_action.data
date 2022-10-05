@@ -1,0 +1,2333 @@
+#  SystemVerilog Parser Action code
+#   
+#  Author: Atsushi Kasuya
+#
+
+<<string_parameter_assign_list>>
+{
+  if( ise_flag ) {
+    $$ = $2 ;
+  }
+  else {
+    SKIP_ON_ERROR ;
+    PASS1_2 {
+      $$ = ALLOC_SV_NODE ;
+      $$->linenum = debug_line_num ;
+      $$->filename = input_file_name ;
+      $$->type = 0 ;
+      $$->num_node = 2 ;
+      $$->node[0] = $1 ;
+      if( $1 ) $1->parent = $$ ;
+      $$->node[1] = $2 ;
+      if( $2 ) $2->parent = $$ ;
+    }  
+  }
+}
+
+<<tri_wire>>
+{
+  $$ = $1 ;
+  if( ise_flag ) {
+    $$->name = "wire" ;
+  }
+}
+
+#########################################
+#   general actions
+#########################################
+
+<<D1_next_eq_D2>>
+{
+  SKIP_ON_ERROR ;
+  PASS2 {
+    systemverilog_node *d1, *d2 ;
+    d1 = $1 ;
+    d2 = $2 ;  
+    if(d1) {
+      while(d1->next) d1 = d1->next ;
+      d1->next = d2 ;
+    }
+  }
+  $$ = $1 ;
+}
+
+<<D1_next_eq_D2_c>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    systemverilog_node *d1, *d2 ;
+    d1 = $1 ;
+    d2 = $2 ;  
+    if(d1) {
+      while(d1->next) d1 = d1->next ;
+      d1->next = d2 ;
+      //fprintf( stderr, "D1_next_eq_D2_c! %x %x %x\n", d1, d1->next, d2 ) ;
+    }
+  }
+  $$ = $1 ;
+}
+
+<<DDeqNULL>>
+{
+  $$ = NULL ;
+}
+
+<<Node_1>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+}
+
+<<Node_2>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 2 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+  }
+}
+
+<<Node_3>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 3 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+  }
+}
+
+<<Node_4>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 4 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+  }
+}
+
+<<Node_5>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 5 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+  }
+}
+
+<<Node_6>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 6 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+    $$->node[5] = $6 ;
+    if( $6 ) $6->parent = $$ ;
+  }
+}
+<<Node_7>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 7 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+    $$->node[5] = $6 ;
+    if( $6 ) $6->parent = $$ ;
+    $$->node[6] = $7 ;
+    if( $7 ) $7->parent = $$ ;
+  }
+}
+
+<<Node_8>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 8 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+    $$->node[5] = $6 ;
+    if( $6 ) $6->parent = $$ ;
+    $$->node[6] = $7 ;
+    if( $7 ) $7->parent = $$ ;
+    $$->node[7] = $8 ;
+    if( $8 ) $8->parent = $$ ;
+  }
+}
+
+<<Node_9>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 9 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+    $$->node[5] = $6 ;
+    if( $6 ) $6->parent = $$ ;
+    $$->node[6] = $7 ;
+    if( $7 ) $7->parent = $$ ;
+    $$->node[7] = $8 ;
+    if( $8 ) $8->parent = $$ ;
+    $$->node[8] = $9 ;
+    if( $9 ) $9->parent = $$ ;
+  }
+}
+
+<<Node_10>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 10 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+    $$->node[5] = $6 ;
+    if( $6 ) $6->parent = $$ ;
+    $$->node[6] = $7 ;
+    if( $7 ) $7->parent = $$ ;
+    $$->node[7] = $8 ;
+    if( $8 ) $8->parent = $$ ;
+    $$->node[8] = $9 ;
+    if( $9 ) $9->parent = $$ ;
+    $$->node[9] = $10 ;
+    if( $10 ) $10->parent = $$ ;
+  }
+}
+
+<<Node_11>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 11 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+    $$->node[5] = $6 ;
+    if( $6 ) $6->parent = $$ ;
+    $$->node[6] = $7 ;
+    if( $7 ) $7->parent = $$ ;
+    $$->node[7] = $8 ;
+    if( $8 ) $8->parent = $$ ;
+    $$->node[8] = $9 ;
+    if( $9 ) $9->parent = $$ ;
+    $$->node[9] = $10 ;
+    if( $10 ) $10->parent = $$ ;
+    $$->node[10] = $11 ;
+    if( $11 ) $11->parent = $$ ;
+  }
+}
+
+<<Node_12>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 12 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+    $$->node[5] = $6 ;
+    if( $6 ) $6->parent = $$ ;
+    $$->node[6] = $7 ;
+    if( $7 ) $7->parent = $$ ;
+    $$->node[7] = $8 ;
+    if( $8 ) $8->parent = $$ ;
+    $$->node[8] = $9 ;
+    if( $9 ) $9->parent = $$ ;
+    $$->node[9] = $10 ;
+    if( $10 ) $10->parent = $$ ;
+    $$->node[10] = $11 ;
+    if( $11 ) $11->parent = $$ ;
+    $$->node[11] = $12 ;
+    if( $12 ) $12->parent = $$ ;
+  }
+}
+
+<<Node_13>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 13 ;
+    $$->node[0] = $1 ;
+    if( $1 ) $1->parent = $$ ;
+    $$->node[1] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[2] = $3 ;
+    if( $3 ) $3->parent = $$ ;
+    $$->node[3] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[4] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+    $$->node[5] = $6 ;
+    if( $6 ) $6->parent = $$ ;
+    $$->node[6] = $7 ;
+    if( $7 ) $7->parent = $$ ;
+    $$->node[7] = $8 ;
+    if( $8 ) $8->parent = $$ ;
+    $$->node[8] = $9 ;
+    if( $9 ) $9->parent = $$ ;
+    $$->node[9] = $10 ;
+    if( $10 ) $10->parent = $$ ;
+    $$->node[10] = $11 ;
+    if( $11 ) $11->parent = $$ ;
+    $$->node[11] = $12 ;
+    if( $12 ) $12->parent = $$ ;
+    $$->node[12] = $13 ;
+    if( $13 ) $13->parent = $$ ;
+  }
+}
+#########################################
+#  Expression handling
+#########################################
+<<DDeqD2>>
+{
+  $$ = $2 ;
+}
+
+<<par_expression>>
+{
+  <<Node_3>>
+  PASS1_2{
+    $$->sva_type = SV_par_expression ;
+  }  
+}
+
+<<DDeqD1prim>>
+{
+  $$ = $1 ;
+  PASS1_2{
+    if( $$->sva_type == SV_no_compile ) $$->sva_type = SV_expression ;
+  }
+}
+
+<<unary_expression>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_unary_expression ;
+  }
+}
+
+<<binary_expression>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_binary_expression ;
+  }
+}
+
+<<selection_expression>>
+{
+  <<Node_5>>
+  PASS1_2 {
+    $$->sva_type = SV_select_expression ;
+  }
+  
+}
+
+
+#########################################
+#   module port  
+#########################################
+<<port_ref>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1 {
+    $$->nm = findname( $$->name ) ;
+    if( $$->nm == NULL )
+      $$->nm = new_node( $$->name, SV_port_name, 1 ) ;
+    else $$->nm->type = SV_port_name ;
+  }
+  PASS2 {
+    $$->nm = findname( $$->name ) ;
+    $$->nm->type = SV_port_name ;
+    $$->sva_type = SV_port_ref ;
+  } 
+}
+
+<<port_ref_range2>>
+{
+  <<Node_6>>
+  PASS1 {
+    $1->nm = findname( $1->name ) ;
+    if( $1->nm == NULL ) $1->nm = new_node( $1->name, SV_port_name, 1 ) ;
+    else $1->nm->type = SV_port_name ;
+  }
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+    $1->nm->type = SV_port_name ;
+    $$->sva_type = SV_port_ref_2 ;
+  }
+}
+
+<<port_ref_range>>
+{
+  <<Node_4>>
+  PASS1 {
+    $1->nm = findname( $1->name ) ;
+    if( $1->nm == NULL ) $1->nm = new_node( $1->name, SV_port_name, 1 ) ;
+    else $1->nm->type = SV_port_name ;
+  }
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+    $1->nm->type = SV_port_name ;
+    $$->sva_type = SV_port_ref_1 ;
+  } 
+}
+
+<<input_port_declaration>>
+{
+  <<Node_6>>
+  PASS1 {
+    $6->nm = findname( $6->name ) ;
+    if( $6->nm == NULL ) $6->nm = new_node( $6->name, SV_port_name, 1 ) ;
+    $6->nm->type = SV_port_name ;
+  }
+  PASS2 {
+    $6->nm = findname( $6->name ) ;
+    $6->nm->type = SV_port_name ;
+    $$->sva_type = SV_input_port_dcl ;
+  } 
+}
+
+<<inout_port_declaration>>
+{
+  <<Node_6>>
+  PASS1 {
+    $6->nm = findname( $6->name ) ;
+    if( $6->nm == NULL ) $6->nm = new_node( $6->name, SV_port_name, 1 ) ;
+    $6->nm->type = SV_port_name ;
+  }
+  PASS2 {
+    $6->nm = findname( $6->name ) ;
+    $6->nm->type = SV_port_name ;
+    $$->sva_type = SV_inout_port_dcl ;
+  } 
+}
+
+<<output_port_declaration>>
+{
+  <<Node_6>>
+  PASS1 {
+    $6->nm = findname( $6->name ) ;
+    if( $6->nm == NULL ) $6->nm = new_node( $6->name, SV_port_name, 1 ) ;
+    $6->nm->type = SV_port_name ;
+  }
+  PASS2 {
+    $6->nm = findname( $6->name ) ;
+    $6->nm->type = SV_port_name ;
+    $$->sva_type = SV_output_port_dcl ;
+  } 
+}
+
+<<output_port_assign_declaration>>
+{
+  <<Node_8>>
+  PASS1 {
+    $6->nm = findname( $6->name ) ;
+    if( $6->nm == NULL ) $6->nm = new_node( $6->name, SV_port_name, 1 ) ;
+    $6->nm->type = SV_port_name ;
+  }
+  PASS2 {
+    $6->nm = findname( $6->name ) ;
+    $6->nm->type = SV_port_name ;
+    $$->sva_type = SV_output_port_dcl ;
+  } 
+}
+
+#########################################
+#   net declaration
+#########################################
+<<net_declaration>>
+{
+  <<Node_8>>
+  PASS1_2 {
+    $$->sva_type = SV_net_declaration ;
+  }
+
+}
+
+<<net_assign_declaration>>
+{
+  <<Node_8>>
+  PASS1_2 {
+    $$->sva_type = SV_net_assign_declaration ;
+  }
+
+}
+
+<<net_st_assign_declaration>>
+{
+  <<Node_7>>
+  PASS1_2 {
+    $$->sva_type = SV_net_st_assign_declaration ;
+  }
+
+}
+
+<<net_variable>>
+{
+  <<Node_2>>
+  PASS1 {
+    $1->nm = findname( $1->name ) ;
+    if( $1->nm == NULL ) $1->nm = new_node( $1->name, SV_net_name, 1 ) ;
+  }
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+  } 
+}
+
+<<net_decl_assign>>
+{
+  <<Node_3>>
+  PASS1 {
+    $1->nm = findname( $1->name ) ;
+    if( $1->nm == NULL ) $1->nm = new_node( $1->name, SV_net_name, 1 ) ;
+  }
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+  } 
+}
+
+<<trireg_dcl>>
+{
+  <<Node_6>>
+  PASS1_2 {
+    /* $5 is list of identifiers */
+    systemverilog_node *node = $5 ;
+    while( node ) {
+      if( node->num_node == 0 ) {
+        PASS1 {
+          node->nm = findname( node->name ) ;
+          if( node->nm == NULL )
+            node->nm = new_node( node->name, SV_reg_name, 1 ) ;
+        }
+        PASS2 {
+          node->nm = findname( node->name ) ;
+        } 
+        node = NULL ;
+      }
+      else {
+        PASS1 {
+          node->node[2]->nm = findname( node->node[2]->name ) ;
+          if( node->node[2]->nm == NULL )
+            node->node[2]->nm = new_node( node->node[2]->name, SV_reg_name, 1 ) ;
+        }
+        PASS2 {
+          node->node[2]->nm = findname( node->node[2]->name ) ;
+        }         
+        node = node->node[0] ;    
+      }
+    }
+    $$->sva_type = SV_trireg_dcl ;
+  }
+}
+
+<<port_dcl_a>>
+{
+  <<Node_6>>
+  {
+    /* $5 is list of identifiers */
+    PASS1_2 {
+      systemverilog_node *node = $5 ;
+      while( node ) {
+        if( node->num_node == 0 ) {
+          node->nm = findname( node->name ) ;
+          if( node->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->name 
+            ) ;
+            exit(1) ;
+          }
+          node = NULL ;
+        }
+        else {
+          node->node[2]->nm = findname( node->node[2]->name ) ;
+          if( node->node[2]->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->node[0]->name 
+            ) ;
+            exit(1) ;
+          }
+          node = node->node[0] ;
+        }
+      }
+      $$->sva_type = SV_port_dcl_a ;
+    }
+  }
+}
+
+<<port_dcl_a>>
+{
+  <<Node_6>>
+  {
+    /* $5 is list of identifiers */
+    PASS1_2 {
+      systemverilog_node *node = $5 ;
+      while( node ) {
+        if( node->num_node == 0 ) {
+          node->nm = findname( node->name ) ;
+          if( node->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->name 
+            ) ;
+            exit(1) ;
+          }
+          node = NULL ;
+        }
+        else {
+          node->node[2]->nm = findname( node->node[2]->name ) ;
+          if( node->node[2]->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->node[0]->name 
+            ) ;
+            exit(1) ;
+          }
+          node = node->node[0] ;
+        }
+      }
+      $$->sva_type = SV_port_dcl_a ;
+    }
+  }
+}
+
+<<port_dcl_b>>
+{
+  <<Node_6>>
+  {
+    /* $5 is list of identifiers */
+    PASS1_2 {
+      systemverilog_node *node = $5 ;
+      while( node ) {
+        if( node->num_node == 0 ) {
+          node->nm = findname( node->name ) ;
+          if( node->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->name 
+            ) ;
+            exit(1) ;
+          }
+          node = NULL ;
+        }
+        else {
+          node->node[2]->nm = findname( node->node[2]->name ) ;
+          if( node->node[2]->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->node[0]->name 
+            ) ;
+            exit(1) ;
+          }
+          node = node->node[0] ;
+        }
+      }
+      $$->sva_type = SV_port_dcl_b ;
+    }
+  }
+}
+
+<<port_dcl_c>>
+{
+  <<Node_6>>
+  {
+    /* $5 is list of identifiers */
+    PASS1_2 {
+      systemverilog_node *node = $5 ;
+      while( node ) {
+        if( node->num_node == 0 ) {
+          node->nm = findname( node->name ) ;
+          if( node->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->name 
+            ) ;
+            exit(1) ;
+          }
+          node = NULL ;
+        }
+        else {
+          node->node[2]->nm = findname( node->node[2]->name ) ;
+          if( node->node[2]->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->node[0]->name 
+            ) ;
+            exit(1) ;
+          }
+          node = node->node[0] ;
+        }
+      }
+      $$->sva_type = SV_port_dcl_c ;
+    }
+  }
+}
+
+<<port_dcl_d>>
+{
+  <<Node_6>>
+  {
+    /* $5 is list of identifiers */
+    PASS1_2 {
+      systemverilog_node *node = $5 ;
+      while( node ) {
+        if( node->num_node == 0 ) {
+          node->nm = findname( node->name ) ;
+          if( node->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->name 
+            ) ;
+            exit(1) ;
+          }
+          node = NULL ;
+        }
+        else {
+          node->node[2]->nm = findname( node->node[2]->name ) ;
+          if( node->node[2]->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->node[0]->name 
+            ) ;
+            exit(1) ;
+          }
+          node = node->node[0] ;
+        }
+      }
+      $$->sva_type = SV_port_dcl_d ;
+    }
+  }
+}
+
+<<port_dcl_e>>
+{
+  <<Node_6>>
+  {
+    /* $5 is list of identifiers */
+    PASS1_2 {
+      systemverilog_node *node = $5 ;
+      while( node ) {
+        if( node->num_node == 0 ) {
+          node->nm = findname( node->name ) ;
+          if( node->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->name 
+            ) ;
+            exit(1) ;
+          }
+          node = NULL ;
+        }
+        else {
+          node->node[2]->nm = findname( node->node[2]->name ) ;
+          if( node->node[2]->nm == NULL ) {
+            fprintf( 
+              stderr, "Error: Port name %s not found in scope\n", node->node[0]->name 
+            ) ;
+            exit(1) ;
+          }
+          node = node->node[0] ;
+        }
+      }
+      $$->sva_type = SV_port_dcl_e ;
+    }
+  }
+}
+
+#########################################
+#  Parameter
+#########################################
+ 
+<<parameter_assign>>
+{
+  <<Node_4>>
+  PASS1 {
+    named_node *nd ;
+    nd = new_node( $1->name, SV_parameter_name, 1 ) ;
+    $$->nm = nd ;
+    $$->nm->value = $3 ;
+    $$->nm->value_range = $4 ;
+  }
+  PASS2 {
+    named_node *nd ;
+    nd = findname( $1->name ) ;
+    $$->nm = nd ;
+    $$->nm->value = $3 ;
+    $$->nm->value_range = $4 ;
+  } 
+}
+
+<<localparam_assign>>
+{
+  <<Node_3>>
+  PASS1 {
+    named_node *nd ;
+    nd = new_node( $1->name, SV_parameter_name, 1 ) ;
+    $$->nm = nd ;
+    $$->nm->value = $3 ;
+  }
+  PASS2 {
+    named_node *nd ;
+    nd = findname( $1->name ) ;
+    $$->nm = nd ;
+    $$->nm->value = $3 ;
+  }   
+}
+
+<<port_identifire>>
+{
+  $$ = $1 ;
+  PASS1 {
+    $$->nm = new_node( $$->name, SV_port_name, 1 ) ;
+  }
+  PASS2 {
+    $$->nm = findname( $$->name ) ;
+  }
+  PASS1_2 {
+    $$->sva_type = SV_port_identifire ;
+  }  
+}
+
+<<port_idenfire_assign>>
+{
+  <<Node_3>>
+  PASS1 {
+    $1->nm = new_node( $1->name, SV_port_name, 1 ) ;
+  }
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+  }  
+  PASS1_2 {
+    $$->sva_type = SV_port_identifire_assign ;
+  }   
+}
+
+<<list_of_port_identifiers>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_list_of_port_identifiers ;
+  }
+}
+
+#########################################
+#  sequence
+#########################################
+
+<<sequence_begin>>
+{
+  parsing_assertion = 1 ;
+  PASS1 {
+    $2->nm = new_node( $2->name, SV_sequence_name, 1 ) ;
+    enter_scope( $2->nm ) ;
+  }
+  PASS2 {
+    $2->nm = findname( $2->name ) ;
+    enter_scope( $2->nm ) ;
+  }
+  $<sv_node>$ = NULL ;
+}
+
+<<sequence_end>>
+{
+  <<Node_10>>
+  PASS1_2 {
+    exit_scope() ;
+    $2->nm->value = $$ ;
+    $$->sva_type = SV_sequence_dcl ;
+  }
+  parsing_assertion = 0 ;
+}
+
+<<ranged_bounded_cycle_delay>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_ranged_bounded_cycle_delay ;
+  }
+}
+<<ranged_unbounded_cycle_delay>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_ranged_unbounded_cycle_delay ;  
+  }
+}
+
+<<unary_constant>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_unary_constant ;
+  }
+}
+
+<<binary_constant>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_binary_constant ;
+  }
+}
+
+<<selection_constant>>
+{
+  <<Node_5>>
+  PASS1_2 {
+    $$->sva_type = SV_selection_constant ;
+  }
+} 
+
+
+<<unary_plus>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_plus ;
+  }
+}
+
+<<unary_minus>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_minus ;
+  }
+}
+
+<<unary_not>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_not ;
+  }
+}
+
+<<unary_tilda>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_tilda ;
+  }
+}
+
+<<unary_and>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_and ;
+  }
+}
+
+<<unary_nand>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_nand ;
+  }
+}
+
+<<unary_or>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_or ;
+  }
+}
+
+<<unary_nor>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_nor ;
+  }
+}
+
+<<unary_xor>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_xor ;
+  }
+}
+
+<<unary_nxor>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_nxor ;
+  }
+}
+
+<<unary_xorn>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_xorn ;
+  }
+}
+
+<<binary_plus>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_plus ;
+  }
+}
+
+<<binary_minus>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_minus ;
+  }
+}
+
+<<binary_star>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_star ;
+  }
+}
+
+<<binary_div>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_div ;
+  }
+}
+
+<<binary_mod>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_mod ;
+  }
+}
+
+<<binary_eqeq>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_eqeq ;
+  }
+}
+
+<<binary_neq>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_neq ;
+  }
+}
+
+<<binary_eqeqeq>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_eqeqeq ;
+  }
+}
+
+<<binary_noteqeq>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_noteqeq ;
+  }
+}
+
+<<binary_eqqeq>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_eqqeq ;
+  }
+}
+
+<<binary_nqeq>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_nqeq ;
+  }
+}
+
+<<binary_land>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_land ;
+  }
+}
+
+<<binary_lor>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_lor ;
+  }
+}
+
+<<binary_starstar>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_starstar ;
+  }
+}
+
+<<binary_lt>>  
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_lt ;
+  }
+}
+
+<<binary_le>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_le ;
+  }
+}
+
+<<binary_gt>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_gt ;
+  }
+}
+
+<<binary_ge>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_unary_xorn ;
+  }
+}
+
+<<binary_and>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_and ;
+  }
+}
+
+<<binary_or>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_or ;
+  }
+}
+
+<<binary_xor>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_xor ;
+  }
+}
+
+<<binary_xorn>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_xorn ;
+  }
+}
+
+<<binary_nxor>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_nxor ;
+  }
+}
+
+<<binary_rshift>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_rshift ;
+  }
+}
+
+<<binary_lshift>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_lshift ;
+  }
+}
+
+<<binary_lrshift>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_lrshift ;
+  }
+}
+
+<<binary_llshift>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_binary_llshift ;
+  }
+}
+
+<<inc_operator>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_inc_operator ;
+  }
+}
+
+<<dec_operator>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_dec_operator ;
+  }
+}
+
+<<assign_operator>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_assign_operator ;
+  }
+}
+
+<<func_assign_operator>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_func_assign_operator ;
+  }
+}
+
+#########################################
+#  sequence expression
+#########################################
+<<sequence_expr>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_sequence_expr ;
+  }  
+}
+
+<<par_sequence_expr>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_par_sequence_expr ;
+  }  
+}
+
+<<cycle_delay_range_sequence_item>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_cycle_delay_range_sequence_item ;
+  }
+}
+
+<<more_cycle_delay_range_sequence_item>>
+{
+  // more_cycle_delay_range_sequence_item
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    systemverilog_node *n, *nn ;
+    n = $$ ;
+    while( n->next ) n = n->next ;
+    n->next = $2 ;
+  }
+}
+
+<<par_seq_item>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_par_seq_item ;
+  }  
+}
+
+<<seq_expression_abbrev>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_expression_abbrev ;
+  }
+}
+
+<<cycle_delay_range_seq_exprs>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_seq_cycle_dly_seq_exprs ;
+  }
+}
+
+<<cycle_delay_range_sequence_expr>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_cycle_delay_range_sequence_expr ;
+  }
+}
+
+<<cycle_delay_range_sequence_expr_s>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    systemverilog_node *n, *nn ;
+    n = $$ ;
+    while( n->next ) n = n->next ;
+    n->next = $2 ;
+  }
+}
+
+<<coma_sequence_match_items>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    systemverilog_node *n, *nn ;
+    n = $$ ;
+    while( n->next ) n = n->next ;
+    nn = ALLOC_SV_NODE ;
+    nn->type = 0 ;
+    nn->num_node = 2 ;
+    nn->node[0] = $2 ;
+    nn->node[1] = $3 ;
+    n->next = nn ;
+  }  
+}
+
+<<operator_assignment>>
+{
+  <<Node_3>>
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+    $$->type = SV_operator_assignment ;
+  }
+}
+
+<<inc_or_dec_Identifier>>
+{ 
+  <<Node_2>>
+  PASS2 {
+    $1->nm = findname( $2->name ) ;
+    $$->type = SV_inc_or_dec_Identifier ;
+  }
+}
+
+<<Identifier_inc_or_dec>>
+{ 
+  <<Node_2>>
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+    $$->type = SV_Identifier_inc_or_dec ;
+  }
+}
+
+<<delay_integral_number>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->type = SV_delay_integral_number ;
+  }
+}
+
+<<delay_Identifier>>
+{
+  <<Node_2>>
+  PASS2 {
+    $2->type = SV_identifier ;
+    $2->nm = findname( $2->name ) ;
+  }
+  PASS1_2 {
+    $$->type = SV_delay_Identifier ;
+  }
+}
+
+<<delay_par_constant_expression>>
+{
+  <<Node_4>>
+  PASS1_2 {
+    $$->type = SV_delay_par_constant_expression ;
+  }
+}
+
+<<delay_br_delay_range>>
+{
+  <<Node_4>>
+  PASS1_2 {
+    $$->type = SV_delay_br_delay_range ;
+  }
+}
+
+<<seq_itm_opt_dly_seq>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_itm_opt_dly_seq ;
+    // if( $1 ) $1->sva_type = SV_seq_cycle_dly_seq_exprs ;
+  }
+}
+
+<<seq_par_exp_match_par_abbrev>>
+{
+  <<Node_5>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_par_exp_match_par_abbrev ;
+  }
+}
+
+<<seq_inst_abbrev>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_inst_abbrev ;
+  }
+}
+
+<<seq_par_seq_match_par_abbrev>>
+{
+  <<Node_5>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_par_seq_match_par_abbrev ;  
+  }
+}
+
+<<seq_seq_and_seq>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_and_seq ;
+  }
+}
+
+<<seq_par_and_seq>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 3 ;
+    $$->node[0] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[1] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[2] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+  }
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_and_seq ;
+  }
+}
+
+<<seq_seq_intersect_seq>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_intersect_seq ;
+  }
+}
+
+<<seq_par_intersect_seq>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 3 ;
+    $$->node[0] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[1] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[2] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+  }
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_intersect_seq ;
+  }
+}
+
+<<seq_seq_or_seq>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_or_seq ;
+  }
+}
+
+<<seq_par_or_seq>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 3 ;
+    $$->node[0] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[1] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[2] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+  }
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_or_seq ;
+  }
+}
+
+<<seq_first_match>>
+{
+  <<Node_5>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_first_match ;  
+  }
+}
+
+<<seq_exp_throughout_seq>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_exp_throughout_seq ;
+  }
+}
+
+<<seq_seq_within_seq>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_within_seq ;
+  }
+}
+
+<<seq_par_within_seq>>
+{
+  SKIP_ON_ERROR ;
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->linenum = debug_line_num ;
+    $$->filename = input_file_name ;
+    $$->type = 0 ;
+    $$->num_node = 3 ;
+    $$->node[0] = $2 ;
+    if( $2 ) $2->parent = $$ ;
+    $$->node[1] = $4 ;
+    if( $4 ) $4->parent = $$ ;
+    $$->node[2] = $5 ;
+    if( $5 ) $5->parent = $$ ;
+  }
+  PASS1_2 {
+    $$->sva_type = SV_seq_seq_within_seq ;
+  }
+}
+
+<<seq_clk_seq>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_clk_seq ;
+  }
+}
+
+<<consecutive_repetition>>
+{
+  <<Node_4>>
+  PASS1_2 {
+    $$->sva_type = SV_consecutive_repetition ;
+  }
+}
+
+<<non_consecutive_repetition>>
+{
+  <<Node_4>>
+  PASS1_2 {
+    $$->sva_type = SV_non_consecutive_repetition ;
+  }
+}
+
+<<goto_repetition>>
+{
+  <<Node_4>>
+  PASS1_2 {
+    $$->sva_type = SV_goto_repetition ;
+  }
+}
+
+<<sequence_instance>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_sequence_instance ;
+  }
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+    if( $1->nm == NULL ) {
+      // burf error
+      fprintf( stderr, "Sequence Instance %s not defined.\n", $1->name ) ;
+    }
+    // create actual argument list and keep it
+    if( $2 && $2->node[1] ) {
+      systemverilog_node *arg = $2->node[1] ;
+      if( arg->sva_type == SV_formal_arg || 
+          arg->sva_type ==  SV_formal_arg_list 
+      ) {
+        while( arg ) {
+          if( arg->sva_type == SV_formal_arg ) {
+            arg->node[1]->nm = findname_in_scope( $1->nm, arg->node[1]->name ) ;
+            if( !arg->node[1]->nm ) {
+              // burf error
+              fprintf(
+                stderr, "Formal arg %s not found in Sequence %s.\n",
+                arg->node[1]->name, $1->name 
+              ) ;
+            }
+            arg = NULL ;
+          }
+          else {
+            // arg->sva_type ==  SV_formal_arg_list
+      	    arg->node[0]->node[1]->nm 
+              = findname_in_scope( $1->nm, arg->node[0]->node[1]->name ) ;
+            if( !arg->node[0]->node[1]->nm ) {
+              // burf error
+              fprintf(
+                stderr, "Formal arg %s not found in Sequence %s.\n",
+                arg->node[0]->node[1]->name, $1->name 
+              ) ;
+            }
+            arg = arg->node[2] ;          
+          }
+        }  // end of while( arg )
+      }
+    }
+  }
+}
+
+<<formal_list_item>>
+{
+  <<Node_2>>
+  PASS1 {
+    $1->sva_type = SV_identifier ;
+    $1->nm = new_node( $1->name, SV_arg_name, 1 ) ;
+  }
+  PASS2 {
+    $1->sva_type = SV_identifier ;
+    $1->nm = findname( $1->name ) ;
+    if( $2 ) {
+      $1->nm->default_arg_value = $2->node[1] ;
+    }
+  } 
+}
+
+<<formal_arg_list>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_formal_arg_list ;
+  }
+  
+}
+
+<<formal_arg>>
+{
+  <<Node_5>>
+  PASS1_2 {
+    $$->sva_type = SV_formal_arg ;
+  }
+}
+
+<<actual_arg_list>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_actual_arg_list ;
+  }
+  
+}
+
+#########################################
+#  property
+#########################################
+<<property_begin>>
+{
+  parsing_assertion = 1 ;
+  PASS1 {
+    $2->nm = new_node( $2->name, SV_property_name, 1 ) ;
+    enter_scope( $2->nm ) ;
+  }
+  PASS2 {
+    $2->nm = findname( $2->name ) ;
+    enter_scope( $2->nm ) ;
+  }
+  $<sv_node>$ = NULL ;
+}
+
+<<property_end>>
+{
+  <<Node_10>>
+  PASS1_2 {
+    $$->sva_type = SV_property_dcl ;
+    $2->nm->value = $$ ;
+    exit_scope() ;
+  }
+  parsing_assertion = 0 ;
+}
+
+<<par_property_par>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_par_property_par ;
+  }
+}
+
+<<assert_begin>>
+{
+  parsing_assertion = 1 ;
+  $<sv_node>$ = NULL ;
+}
+
+
+<<not_property>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_not_property ;
+  }
+}
+
+<<prop_or_prop>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_prop_or_prop ;
+  }
+}
+
+<<prop_and_prop>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_prop_and_prop ;
+  }
+}
+
+<<seq_ovi_prop>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_ovi_prop ;
+  }
+}
+
+<<seq_novi_prop>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_seq_novi_prop ;
+  }
+}
+
+<<if_else_prop>>
+{
+  <<Node_6>>
+  PASS1_2 {
+    $$->sva_type = SV_if_else_prop ;
+  }
+}
+
+<<clk_property>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_clk_property ;
+  }
+}
+
+
+<<block_id>>
+{
+  <<Node_2>>
+  PASS1 {
+    $$->nm = new_node( $1->name, SV_net_name, 1 ) ;
+  }
+  PASS2 {
+    $$->nm = findname( $1->name ) ;
+  }   
+}
+<<assert_property_statement>>
+{
+  <<Node_7>>
+  PASS1_2 {
+    $$->sva_type = SV_assert_property ;
+  }
+  parsing_assertion = 0 ;
+
+}
+
+<<assume_property_statement>>
+{
+  <<Node_7>>
+  PASS1_2 {
+    $$->sva_type = SV_assume_property ;
+  }
+  parsing_assertion = 0 ;
+
+}
+
+<<cover_property_statement>>
+{
+  <<Node_7>>
+  PASS1_2 {
+    $$->sva_type = SV_cover_property ;
+  }
+  parsing_assertion = 0 ;
+}
+
+<<expect_property_statement>>
+{
+  <<Node_5>>
+  PASS1_2 {
+    $$->sva_type = SV_expect_property ;
+  }
+}
+
+<<property_instance>>
+{
+  <<Node_2>>
+  PASS1_2 {
+    $$->sva_type = SV_property_instance ;
+  }
+  PASS2 {
+    $1->nm = findname( $1->name ) ;
+    if( $1->nm == NULL ) {
+      // burf error
+      fprintf( stderr, "Property Instance %s not defined.\n", $1->name ) ;
+    }
+    // create actual argument list and keep it
+    if( $2 && $2->node[1] ) {
+      systemverilog_node *arg = $2->node[1] ;
+      if( arg->sva_type == SV_formal_arg || 
+          arg->sva_type ==  SV_formal_arg_list 
+      ) {
+        while( arg ) {
+          if( arg->sva_type == SV_formal_arg ) {
+            arg->node[1]->nm = findname_in_scope( $1->nm, arg->node[1]->name ) ;
+            if( !arg->node[1]->nm ) {
+              // burf error
+              fprintf(
+                stderr, "Formal arg %s not found in Sequence %s.\n",
+                arg->node[1]->name, $1->name 
+              ) ;
+            }
+            arg = NULL ;
+          }
+          else {
+            // arg->sva_type ==  SV_formal_arg_list
+    	    arg->node[0]->node[1]->nm 
+              = findname_in_scope( $1->nm, arg->node[0]->node[1]->name ) ;
+            if( !arg->node[0]->node[1]->nm ) {
+              // burf error
+              fprintf(
+                stderr, "Formal arg %s not found in Sequence %s.\n",
+                arg->node[0]->node[1]->name, $1->name 
+              ) ;
+            }
+            arg = arg->node[2] ;          
+          }
+        }
+      }
+    }
+  }  
+}
+
+<<par_property_instance>>
+{
+  <<Node_4>>
+  PASS1_2 {
+    $$->sva_type = SV_par_property_instance ;
+  }
+  PASS2 {
+    $2->nm = findname( $2->name ) ;
+    if( $2->nm == NULL ) {
+      // burf error
+      fprintf( stderr, "Property Instance %s not defined.\n", $2->name ) ;
+    }
+    // create actual argument list and keep it
+    if( $3 && $3->node[1] ) {
+      systemverilog_node *arg = $3->node[1] ;
+      if( arg->sva_type == SV_formal_arg || 
+          arg->sva_type ==  SV_formal_arg_list 
+      ) {
+        while( arg ) {
+          if( arg->sva_type == SV_formal_arg ) {
+            arg->node[1]->nm = findname_in_scope( $2->nm, arg->node[1]->name ) ;
+            if( !arg->node[1]->nm ) {
+              // burf error
+              fprintf(
+                stderr, "Formal arg %s not found in Sequence %s.\n",
+                arg->node[1]->name, $2->name 
+              ) ;
+            }
+            arg = NULL ;
+          }
+          else {
+            // arg->sva_type ==  SV_formal_arg_list
+    	    arg->node[0]->node[1]->nm 
+              = findname_in_scope( $2->nm, arg->node[0]->node[1]->name ) ;
+            if( !arg->node[0]->node[1]->nm ) {
+              // burf error
+              fprintf(
+                stderr, "Formal arg %s not found in Sequence %s.\n",
+                arg->node[0]->node[1]->name, $2->name 
+              ) ;
+            }
+            arg = arg->node[2] ;          
+          }
+        }
+      }
+    }
+  }  
+}
+
+<<assertion_variable_declaration>>
+{
+  systemverilog_node *node ;
+  <<Node_3>>
+  node = $2 ;
+  while( node ) {
+    PASS1 {
+      node->node[0]->nm = new_node( node->node[0]->name, SV_localvar_name, 1 ) ;
+    }
+    PASS2 {
+      node->node[0]->nm = findname( node->node[0]->name ) ;
+    }
+    node = node->next ;
+  }
+}
+
+<<concurrent_assertion_item>>
+{
+  <<Node_2>>
+  PASS2 {
+    $$->sva_type = SV_concurrent_assertion ;
+  }
+}
+
+<<byte>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    $$->data_type = SV_byte_type ;
+  }
+}
+
+<<shorting>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    $$->data_type = SV_shortint_type ;
+  }
+}
+
+<<int>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    $$->data_type = SV_int_type ;
+  }
+}
+
+<<longint>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    $$->data_type = SV_longint_type ;
+  }
+}
+
+<<integer>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    $$->data_type = SV_integer_type ;
+  }
+}
+
+<<bit>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    $$->data_type = SV_bit_type ;
+  }
+}
+
+<<logic>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    $$->data_type = SV_logic_type ;
+  }
+}
+
+<<reg>>
+{
+  SKIP_ON_ERROR ;
+  $$ = $1 ;
+  PASS1_2 {
+    $$->data_type = SV_reg_type ;
+  }
+}
+
+<<ps_identifier>>
+{
+  <<Node_2>>
+  PASS2 {
+    if( $1 ) {
+      // not supported
+      fprintf( 
+        stderr, "Error: packaged name %s not supported\n", $1->node[0]->name
+      ) ;
+      exit(1) ;
+    } 
+    else {
+      $$->nm = findname( $2->name ) ;
+    }
+  }
+  PASS1_2 {
+    $$->sva_type = SV_identifier ; 
+  }
+}
+
+<<integral_number>>
+{
+  $$ = $1 ;
+  PASS1_2 {
+    $$->sva_type = SV_integral_number ;
+  }
+}
+#########################################
+#   high level 
+#########################################
+<<null_root>>
+{
+  SKIP_ON_ERROR ;
+  PASS2 {
+    root_node = NULL ;
+  }
+  $$ = NULL ;
+}
+
+<<set_root>>
+{
+  /* set_root */
+  SKIP_ON_ERROR ;
+  PASS2 {
+    root_node = $1 ;
+  }
+  $$ = $1 ;
+}
+
+<<module_begin>>
+{
+  SKIP_ON_ERROR ;
+  PASS1 {
+    named_node *n = new_node($3->name, SV_module_name, 1) ;
+    enter_scope( NULL ) ;
+  }
+  PASS2 {
+    named_node *n = findname( $3->name ) ;
+    enter_scope( NULL ) ;
+  }
+  $<sv_node>$ = NULL ;
+}
+
+<<module_end>>
+{
+  SKIP_ON_ERROR ;
+  <<Node_10>>
+  PASS1_2 {
+    exit_scope() ;
+    $$->sva_type = SV_module_top ;
+    // printf( "module %s\n", $3->name ) ;
+    $8->sva_type = SV_module_item_begin ;
+  }
+}
+
+<<empty_port_list>>
+{
+  PASS1_2 {
+    $$ = ALLOC_SV_NODE ;
+    $$->num_node = 0 ;
+    $$->sva_type = SV_port_list ;
+  }
+}
+<<par_port_list>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_port_list ;
+  }
+}
+
+<<par_port_dcl_list>>
+{
+  <<Node_3>>
+  PASS1_2 {
+    $$->sva_type = SV_port_dcl_list ;
+  }
+}
+
+<<system_function_call>>
+{
+  <<Node_4>>
+  PASS2{
+   /* Sys_identifier '(' expression_list_proper ')' */
+   if( !strcmp( "$rose", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_rose ;
+   }
+   if( !strcmp( "$fell", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_fell ;
+   }
+   if( !strcmp( "$onehot", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_onehot ;
+   }
+   if( !strcmp( "$onehot0", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_onehot0 ;
+   }
+   if( !strcmp( "$stable", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_stable ;
+   }
+   if( !strcmp( "$past", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_past ;
+   }
+   if( !strcmp( "$sampled", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_sampled ;
+   }
+   if( !strcmp( "$countones", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_countones ;
+   }
+   if( !strcmp( "$isunknown", $1->name ) ) {
+     $$->sva_type = SV_sys_function_call ; 
+     $$->sysfunc = sys_isunknown ;
+   }
+  
+  }
+
+}
+
+<<identifier>>
+{
+  $$ = $1 ;
+  SKIP_ON_ERROR ;
+  PASS2 {
+    $$->nm = findname( $1->name ) ;
+    $$->sva_type = SV_identifier ; 
+  }
+}
+
+<<hieracy_identifier>>
+{
+  <<Node_3>>
+  PASS2 { 
+    /* we may need to support hieracy identifier mechanism */
+    $3->nm = findname( $3->name ) ;
+    $$->sva_type = SV_hieracy_identifier ;
+  }
+}
+
+<<identifier_singlesell>>
+{
+  <<Node_4>>
+  PASS2 {
+    if( $1->sva_type == SV_identifier ) {
+      $1->nm = findname( $1->name ) ;
+    }
+    $$->sva_type = SV_identifier_singlesell ;
+  }
+}
+
+<<identifier_rangesell>>
+{
+  <<Node_6>>
+  PASS2 {
+    if( $1->sva_type == SV_identifier ) {
+      $1->nm = findname( $1->name ) ;
+    }
+    $$->sva_type = SV_identifier_rangesell ;
+  }
+  
+}
+
+<<posedge_event>>
+{
+  <<Node_2>>
+  PASS2 {
+    $$->sva_type = SV_posedge_event ;
+  }
+}
+
+<<negedge_event>>
+{
+  <<Node_2>>
+  PASS2 {
+    $$->sva_type = SV_negedge_event ;
+  }
+
+}
+

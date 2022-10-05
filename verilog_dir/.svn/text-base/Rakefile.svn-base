@@ -1,0 +1,245 @@
+require 'rake/clean'
+
+VR = "iverilog"
+VL = "vlog"
+VS = "vsim"
+
+SVFL = FileList[ "*.sv" ]
+DVFL = FileList[ "*.dv" ]
+DV3FL = FileList[ "*.dv3" ]
+DV3FFL = FileList[ "*.dv3f" ]
+ATFL = FileList[ "*.atv" ]
+RVFL = SVFL.ext( 'arv' )
+RSFL = SVFL.ext( 'result' )
+
+TSFL = FileList[ "*.test" ]
+
+CLEAN.include(SVFL)
+CLEAN.include(DVFL)
+CLEAN.include(DV3FL)
+CLEAN.include(DV3FFL)
+CLEAN.include(RVFL)
+CLEAN.include(RSFL)
+CLEAN.include(ATFL)
+CLEAN.include("a.out")
+
+SVFL.each { |t|
+  name = t.split(/\./)[0]
+  desc "task for #{name}"
+  task "#{name}" => "#{name}.arv" do |n|
+    puts "Run #{n.name}"
+    sh "#{VR} #{n.name}.arv sva2rtl_verilog_lib.v"
+    sh "./a.out > #{n.name}.result"
+    sh "!(cat #{n.name}.result | grep Error)"
+  end
+  task "#{name}_at" => "#{name}.atv" do |n|
+    nn = n.name[0,n.name.length-3]
+    puts "Run #{nn}"
+    sh "#{VR} #{nn}.atv sva2rtl_verilog_lib.v"
+    sh "./a.out > #{nn}.result"
+    sh "!(cat #{nn}.result | grep Error)"
+  end
+  task "#{name}_d" => "#{name}.dv" do |n|
+    nn = n.name[0,n.name.length-2]
+    puts "Run #{nn}"
+    sh "#{VR} #{nn}.dv sva2rtl_verilog_lib.v"
+    sh "./a.out > #{nn}.result"
+    sh "!(cat #{nn}.result | grep Error)"
+  end
+  task "#{name}_d3" => "#{name}.dv3" do |n|
+    nn = n.name[0,n.name.length-3]
+    puts "Run #{nn}"
+    sh "#{VR} #{nn}.dv3 sva2rtl_verilog_lib.v"
+    sh "./a.out > #{nn}.result"
+    sh "!(cat #{nn}.result | grep Error)"
+  end
+  task "#{name}_d3f" => "#{name}.dv3f" do |n|
+    nn = n.name[0,n.name.length-4]
+    puts "Run #{nn}"
+    sh "#{VR} #{nn}.dv3f sva2rtl_verilog_lib.v"
+    sh "./a.out > #{nn}.result"
+    sh "!(cat #{nn}.result | grep Error)"
+  end
+  task "#{name}_v" => "#{name}.arv" do |n|
+    nn = n.name[0,n.name.length-2]
+    puts "Run Modelsim for #{nn}"
+    sh "#{VL} #{nn}.arv sva2rtl_verilog_lib.v"
+    sh "#{VS} -c -do \"run -all\" test_module > #{nn}.result"
+    sh "!(cat #{nn}.result | grep Error)"
+  end
+  task "#{name}_f3" => "#{name}.f3" do |n|
+    nn = n.name[0,n.name.length-3]
+    puts "Run #{nn}"
+    sh "#{VR} #{nn}.f3 sva2rtl_verilog_lib.v"
+    sh "./a.out > #{nn}.result"
+    sh "!(cat #{nn}.result | grep Error)"
+  end  
+}
+
+rule '.arv' => '.sv' do |t|
+  sh "cd ..; ./sva2rtl -o -m verilog_dir/#{t.source}"
+end
+
+rule '.dv' => '.sv' do |t|
+  sh "cd ..; ./sva2rtl -o -m -d2 -p2 verilog_dir/#{t.source} verilog_dir/#{t.name}"
+end
+
+rule '.dv3' => '.sv' do |t|
+  sh "cd ..; ./sva2rtl -o -m -d3 -i -p2 verilog_dir/#{t.source} verilog_dir/#{t.name}"
+end
+
+rule '.dv3f' => '.sv' do |t|
+  sh "cd ..; ./sva2rtl -o -m -d3 -p2 -i -f verilog_dir/#{t.source} verilog_dir/#{t.name}"
+end
+
+rule '.atv' => '.sv' do |t|
+  sh "cd ..; ./sva2rtl -o -m -a -t1 verilog_dir/#{t.source} verilog_dir/#{t.name}"
+end
+
+rule '.f3' => '.sv' do |t|
+  sh "cd ..; ./sva2rtl -o -m -a -t3 verilog_dir/#{t.source} verilog_dir/#{t.name}"
+end
+
+task :test_all do
+  SVFL.each { |t|
+    name = t.split(/\./)[0]
+    sh "rake #{name}"
+  }
+end
+
+task :test_all_d do
+  SVFL.each { |t|
+    name = t.split(/\./)[0]
+    sh "rake #{name}_d"
+  }
+end
+
+task :test_all_d3 do
+  SVFL.each { |t|
+    name = t.split(/\./)[0]
+    sh "rake #{name}_d3"
+  }
+end
+
+task :test_all_d3f do
+  SVFL.each { |t|
+    name = t.split(/\./)[0]
+    sh "rake #{name}_d3f"
+  }
+end
+
+task :test_all_v do
+  SVFL.each { |t|
+    name = t.split(/\./)[0]
+    sh "rake #{name}_v"
+  }
+end
+
+task :test_all_f3 do
+  SVFL.each { |t|
+    name = t.split(/\./)[0]
+    sh "rake #{name}_f3"
+  }
+end
+
+task :test_all_at do
+  SVFL.each { |t|
+    name = t.split(/\./)[0]
+    sh "rake #{name}_at"
+  }
+end
+
+task :gen_tests do 
+  TSFL.each { |t|
+    puts "#{t}"
+    sh "./testgen.rb #{t}"
+  }  
+end
+
+task :gen_fm_tests do 
+  TSFL.each { |t|
+    puts "#{t}"
+    sh "./testgen_fm.rb #{t}"
+  }  
+end
+
+task :gen_all_test do
+  sh "rake gen_tests"
+  sh "./op_testgen.rb"
+  sh "./dly_testgen.rb"
+  sh "./r_testgen.rb"
+  sh "./rw_testgen.rb"
+  sh "./rss_testgen.rb"
+  sh "./rs_testgen.rb"
+  sh "./rsw_testgen.rb"
+  sh "./rg_testgen.rb"
+  sh "./arg_testgen.rb"
+  sh "./lvr_testgen.rb"
+  sh "./lvrb_testgen.rb"
+  sh "./and_testgen.rb"
+  sh "./onehot_testgen.rb"
+  sh "./prop_testgen.rb"
+end
+
+task :dp_test_all do
+  sh "echo 'full dp regression'"
+  sh "rake clean"
+  sh "./dp2_testgen.rb"
+  sh "rake test_all_d"
+  sh "rake clean"
+  sh "./dplvr_testgen.rb"
+  sh "rake test_all_d"
+  sh "rake clean"
+  sh "./dpAND_testgen.rb"
+  sh "rake test_all_d3"
+  sh "rake clean"
+  sh "./dpNoFlt_testgen.rb"
+  sh "rake test_all_d3f"
+  sh "rake clean"
+  sh "./dpTopAND_testgen.rb"
+  sh "rake test_all_d3"
+  sh "rake clean"
+  sh "./dpTopOR_testgen.rb"
+  sh "rake test_all_d3"
+  sh "rake clean"
+  sh "./dpPropAND_testgen.rb"
+  sh "rake test_all_d"
+  sh "rake clean"
+  sh "./dpPropOR_testgen.rb"
+  sh "rake test_all_d"
+  sh "rake clean"
+end
+
+task :f3_test_all do
+  sh "echo 'ff 3 regression'"
+  sh "rake clean"
+  sh "./lvrb_testgen.rb 2"
+  sh "rake test_all_f3"
+end
+
+task :at_test do
+  sh "echo 'full regression'"
+  sh "rake clean"
+  sh "rake gen_all_test"
+  sh "rake test_all_at"
+end
+
+task :default do
+  sh "echo 'full regression'"
+  sh "rake clean"
+  sh "rake gen_all_test"
+  sh "rake test_all"
+  sh "rake clean"
+end
+
+task :work do
+  sh "vlib work"
+  sh "vmap work work"
+end
+
+task :modelsim => "work" do
+  sh "echo 'full regression'"
+  sh "rake clean"
+  sh "rake gen_all_test"
+  sh "rake test_all_v"
+end

@@ -1,0 +1,57 @@
+
+  –>   DASH_GT
+  :=   C_EQ
+  :/   C_DIV
+  ::   DBL_CLN
+  ##   DBL_SHARP
+  @@   DBL_AT
+  =>   EQ_GT
+  ->>  DASH_RSHIFT
+  *>   STAR_GT
+  &&&  TRPL_AND
+  +:   PLS_CLN
+  -:   MNS_CLN
+
+  ~&    TILDAAND
+  ~|    TILDAOR
+  ^~    EORTILDA
+  ~^    TILDAEOR
+  &&    LAND
+  ||    LOR
+  >>    RSHIFT
+  >>>   URSHIFT
+  <<    LSHIFT
+  ==    EQEQ
+  <=    LE
+  >=    GE
+  !=    NE
+  ===   EQEQEQ
+  !==  NEQEQ
+  =?=   Q_EQ
+  !?=   Q_NEQ
+  ++    D_PLUS
+  --    D_MINUS
+  @@    D_AT
+  :=    C_EQ
+  +=    PLUS_EQ
+  -=    MINUS_EQ
+  *=    STAR_EQ
+  /=    SLSH_EQ
+  %=    MOD_EQ
+  &=    AND_EQ
+  |=    OR_EQ
+  ^=    EOR_EQ
+  <<=   LSHIFT_EQ
+  >>=   RSHIFT_EQ
+  >>>=  URSHIFT_EQ
+  <<<=  ULSHIFT_EQ
+  **    DOUBLE_STAR
+  ->    ARROW
+  *)    STAR_RPAR
+  (*    LPAR_STAR
+  |->   BAR_ARROW
+  |=>   BAR_FATARROW
+  <<<   LTLTLT
+  -;    MINUS_CLMN
+
+  
